@@ -1,0 +1,33 @@
+---
+import CategoryPage from "../components/CategoryPage.astro";
+import { products } from "../data/products";
+
+const depiladoras = products.filter((p) => p.type === "depiladora");
+---
+
+<CategoryPage
+  type="depiladora"
+  path="/depiladoras/"
+  title="Mejores Depiladoras en Chile 2026: IPL, Facial y Corporal"
+  metaDescription="Comparamos depiladoras IPL, faciales y corporales disponibles en Mercado Libre Chile: Philips Lumea, Beurer y más. Tecnología, zona de uso, precios en CLP."
+  h1="Depilación: IPL, facial y corporal"
+  intro={[
+    "No todas las depiladoras sirven para lo mismo: las de tecnología IPL están pensadas como alternativa de largo plazo al láser para piernas y cuerpo, mientras que las depiladoras faciales están diseñadas específicamente para vello fino de labio, mentón y cejas.",
+    "Si buscas resultados de larga duración en zonas grandes del cuerpo, la inversión en IPL se amortiza con el tiempo frente a la depilación tradicional; para retoques faciales puntuales, una depiladora eléctrica económica es suficiente.",
+  ]}
+  faqs={[
+    {
+      q: "¿La depilación IPL en casa realmente funciona?",
+      a: "Sí, con constancia: reduce visiblemente el crecimiento del vello tras varias sesiones, aunque los resultados varían según el tono de piel y color de vello (funciona mejor en vello oscuro sobre piel clara).",
+    },
+    {
+      q: "¿Puedo usar una depiladora corporal en el rostro?",
+      a: "No es recomendable: la piel del rostro es más sensible. Las depiladoras faciales están diseñadas específicamente con cabezales y potencia adecuados para esa zona.",
+    },
+    {
+      q: "¿Cuántos destellos necesito en una IPL?",
+      a: "Para uso regular durante varios años en cuerpo completo, conviene un mínimo de 250.000 destellos. Para solo piernas o axilas, 100.000-150.000 destellos suelen ser suficientes.",
+    },
+  ]}
+  products={depiladoras}
+/>

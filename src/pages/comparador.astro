@@ -1,0 +1,19 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Comparator from "../components/Comparator.tsx";
+---
+
+<Layout
+  title="Comparador de Secadores, Planchas, Depiladoras y Cuidado Facial"
+  description="Compara hasta 4 productos de belleza lado a lado: secadores, planchas, depiladoras o dispositivos de cuidado facial, con ficha técnica completa y enlace directo de compra en Mercado Libre."
+>
+  <main class="mx-auto max-w-6xl px-4 pb-16">
+    <div class="mt-8">
+      <h1 class="text-2xl font-bold text-ink-900">Comparador</h1>
+      <p class="mt-1 text-ink-500">Elige un tipo de producto y entre 2 y 4 modelos para verlos lado a lado.</p>
+    </div>
+    <div class="mt-6">
+      <Comparator client:load />
+    </div>
+  </main>
+</Layout>

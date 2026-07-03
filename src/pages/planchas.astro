@@ -1,0 +1,33 @@
+---
+import CategoryPage from "../components/CategoryPage.astro";
+import { products } from "../data/products";
+
+const planchas = products.filter((p) => p.type === "plancha");
+---
+
+<CategoryPage
+  type="plancha"
+  path="/planchas/"
+  title="Mejores Planchas de Pelo en Chile 2026: Comparativa y Precios"
+  metaDescription="Comparamos planchas y alisadores de pelo disponibles en Mercado Libre Chile: BaByliss PRO, Ga.ma, Lizze, Remington y más. Material de placas, temperatura, precios en CLP."
+  h1="Planchas y rizadores de pelo"
+  intro={[
+    "El material de las placas y el rango de temperatura son las variables que más determinan si una plancha alisa bien o daña el cabello. Comparamos desde opciones económicas hasta planchas de uso profesional de salón.",
+    "Para cabello fino, no necesitas superar los 180-200°C; para cabello grueso o muy rizado, un rango de hasta 230°C con placas de titanio o keratina reduce el número de pasadas necesarias y el daño acumulado.",
+  ]}
+  faqs={[
+    {
+      q: "¿Cerámica, titanio o keratina: cuál elegir?",
+      a: "Cerámica es la opción estándar y funciona bien para la mayoría de cabellos. Titanio calienta más rápido y parejo, ideal para cabello grueso o uso profesional frecuente. Los tratamientos de keratina en placas ayudan a reducir el daño en cabello ya dañado o teñido.",
+    },
+    {
+      q: "¿Qué ancho de placa conviene?",
+      a: "Placas más angostas (2.5-3 cm) dan más precisión para cabello corto o flequillo. Placas más anchas (superior a 3.5 cm) agilizan el alisado en cabello largo o abundante.",
+    },
+    {
+      q: "¿Vale la pena una plancha profesional de salón?",
+      a: "Si la usas a diario o eres estilista, sí: alcanzan temperatura más rápido y son más durables bajo uso intensivo. Para uso ocasional en casa, una plancha de gama media cubre bien la necesidad.",
+    },
+  ]}
+  products={planchas}
+/>

@@ -1,0 +1,37 @@
+---
+const links = [
+  { href: "/secadores/", label: "Secadores" },
+  { href: "/planchas/", label: "Planchas y Rizadores" },
+  { href: "/depiladoras/", label: "Depilación" },
+  { href: "/facial/", label: "Cuidado Facial" },
+  { href: "/comparador/", label: "Comparador" },
+];
+
+const currentPath = Astro.url.pathname;
+---
+
+<header class="sticky top-0 z-30 border-b border-ink-100 bg-white/90 backdrop-blur">
+  <div class="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-4">
+    <a href="/" class="flex shrink-0 items-center gap-2">
+      <span class="flex h-8 w-8 items-center justify-center rounded-lg bg-brand-500 text-sm font-bold text-white">
+        CB
+      </span>
+      <span class="text-lg font-bold text-ink-900">ComparaBelleza.cl</span>
+    </a>
+    <nav class="flex flex-wrap items-center gap-x-5 gap-y-1">
+      {
+        links.map((link) => (
+          <a
+            href={link.href}
+            class:list={[
+              "text-sm font-medium transition",
+              currentPath.startsWith(link.href) ? "text-brand-600" : "text-ink-500 hover:text-ink-800",
+            ]}
+          >
+            {link.label}
+          </a>
+        ))
+      }
+    </nav>
+  </div>
+</header>

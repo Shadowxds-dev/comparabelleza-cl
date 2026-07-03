@@ -1,0 +1,69 @@
+---
+import Layout from "../layouts/Layout.astro";
+import ProductCard from "../components/ProductCard.astro";
+import Newsletter from "../components/Newsletter.tsx";
+import { products, PRODUCT_TYPE_LABELS } from "../data/products";
+import type { ProductType } from "../types";
+
+const categories: { type: ProductType; href: string; blurb: string }[] = [
+  { type: "secador", href: "/secadores/", blurb: "Potencia, iones y tecnología antifrizz" },
+  { type: "plancha", href: "/planchas/", blurb: "Cerámica, titanio y protección de color" },
+  { type: "depiladora", href: "/depiladoras/", blurb: "IPL, facial y corporal" },
+  { type: "facial", href: "/facial/", blurb: "Drenaje linfático y contorno" },
+];
+
+const featured = [...products].sort((a, b) => b.reviewCount - a.reviewCount).slice(0, 6);
+---
+
+<Layout
+  title="Secadores, Planchas, Depiladoras y Cuidado Facial en Chile"
+  description="Comparativas independientes de secadores, planchas, depiladoras y dispositivos de cuidado facial disponibles en Mercado Libre Chile. Fichas técnicas, comparador y precios en CLP."
+>
+  <main class="mx-auto max-w-6xl px-4 pb-16">
+    <section class="mt-8 rounded-3xl bg-gradient-to-br from-brand-600 to-brand-900 px-8 py-14 text-white sm:mt-12">
+      <p class="text-sm font-semibold uppercase tracking-wide text-brand-200">Guía comparativa independiente</p>
+      <h1 class="mt-3 max-w-2xl text-3xl font-bold sm:text-4xl">
+        Encuentra tu secador, plancha o depiladora ideal sin adivinar
+      </h1>
+      <p class="mt-4 max-w-xl text-brand-100">
+        Comparamos {products.length} productos de belleza disponibles en Mercado Libre Chile por ficha técnica,
+        precio y valoraciones para que decidas en minutos, no en semanas.
+      </p>
+      <a
+        href="/comparador/"
+        class="mt-6 inline-block rounded-lg bg-white px-5 py-2.5 text-sm font-semibold text-brand-700 transition hover:bg-brand-50"
+      >
+        Abrir el comparador →
+      </a>
+    </section>
+
+    <section class="mt-12">
+      <h2 class="text-xl font-bold text-ink-900">Explora por categoría</h2>
+      <div class="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        {
+          categories.map((c) => (
+            <a
+              href={c.href}
+              class="rounded-2xl border border-ink-100 bg-white p-5 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
+            >
+              <div class="text-lg font-bold text-ink-900">{PRODUCT_TYPE_LABELS[c.type]}</div>
+              <p class="mt-1 text-sm text-ink-500">{c.blurb}</p>
+              <span class="mt-3 inline-block text-sm font-semibold text-brand-600">Ver comparativa →</span>
+            </a>
+          ))
+        }
+      </div>
+    </section>
+
+    <section class="mt-12">
+      <h2 class="text-xl font-bold text-ink-900">Los más valorados</h2>
+      <div class="mt-4 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        {featured.map((product) => <ProductCard product={product} />)}
+      </div>
+    </section>
+
+    <div class="mt-14">
+      <Newsletter client:visible />
+    </div>
+  </main>
+</Layout>

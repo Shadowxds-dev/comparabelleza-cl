@@ -1,0 +1,175 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import ProductImage from "../../components/ProductImage.astro";
+import StarRating from "../../components/StarRating.astro";
+import ProductCard from "../../components/ProductCard.astro";
+import { products, PRODUCT_TYPE_LABELS } from "../../data/products";
+import { formatCLP } from "../../utils/format";
+import { SITE_URL } from "../../consts";
+
+export function getStaticPaths() {
+  return products.map((product) => ({
+    params: { slug: product.slug },
+    props: { product },
+  }));
+}
+
+const { product } = Astro.props;
+const path = `/producto/${product.slug}/`;
+
+const related = products.filter((p) => p.type === product.type && p.id !== product.id).slice(0, 3);
+
+const fullName = product.name.startsWith(product.brand) ? product.name : `${product.brand} ${product.name}`;
+const title = `${fullName} — Ficha técnica, precio y opiniones`;
+const description = `${product.description} Precio orientativo: ${formatCLP(product.price)}. Compara ${fullName} con otros modelos de ${PRODUCT_TYPE_LABELS[product.type].toLowerCase()} en Chile.`;
+
+const productJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Product",
+  name: fullName,
+  brand: { "@type": "Brand", name: product.brand },
+  description: product.description,
+  aggregateRating: {
+    "@type": "AggregateRating",
+    ratingValue: product.rating,
+    reviewCount: product.reviewCount,
+  },
+  offers: {
+    "@type": "Offer",
+    priceCurrency: "CLP",
+    price: product.price,
+    url: product.affiliateUrl,
+    availability: "https://schema.org/InStock",
+  },
+};
+
+const categoryHref =
+  product.type === "secador"
+    ? "/secadores/"
+    : product.type === "plancha"
+      ? "/planchas/"
+      : product.type === "depiladora"
+        ? "/depiladoras/"
+        : "/facial/";
+
+const breadcrumbJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    { "@type": "ListItem", position: 1, name: "Inicio", item: SITE_URL },
+    { "@type": "ListItem", position: 2, name: PRODUCT_TYPE_LABELS[product.type], item: `${SITE_URL}${categoryHref}` },
+    { "@type": "ListItem", position: 3, name: fullName, item: `${SITE_URL}${path}` },
+  ],
+};
+---
+
+<Layout title={title} description={description} jsonLd={[productJsonLd, breadcrumbJsonLd]}>
+  <main class="mx-auto max-w-5xl px-4 pb-16">
+    <nav class="my-6 text-sm text-ink-400" aria-label="Breadcrumb">
+      <a href="/" class="hover:text-brand-600">Inicio</a> /
+      <a href={categoryHref} class="hover:text-brand-600">{PRODUCT_TYPE_LABELS[product.type]}</a> /
+      <span class="text-ink-600">{product.name}</span>
+    </nav>
+
+    <div class="grid grid-cols-1 gap-8 md:grid-cols-2">
+      <ProductImage type={product.type} tier={product.tier} image={product.image} title={product.name} class="aspect-square w-full" />
+
+      <div>
+        <div class="text-sm font-semibold uppercase tracking-wide text-brand-600">
+          {product.brand} · {PRODUCT_TYPE_LABELS[product.type]}
+        </div>
+        <h1 class="mt-1 text-3xl font-bold text-ink-900">{product.name}</h1>
+        <div class="mt-3">
+          <StarRating rating={product.rating} reviewCount={product.reviewCount} size="md" />
+        </div>
+        <p class="mt-4 text-ink-600">{product.description}</p>
+
+        <div class="mt-6 flex items-end gap-3">
+          <span class="text-4xl font-bold text-ink-900">{formatCLP(product.price)}</span>
+          <span class="pb-1 text-sm text-ink-400">precio orientativo, verifica en Mercado Libre</span>
+        </div>
+
+        <div class="mt-6 flex flex-wrap gap-3">
+          <a
+            href={product.affiliateUrl}
+            target="_blank"
+            rel="noopener noreferrer sponsored nofollow"
+            class="rounded-xl bg-brand-500 px-6 py-3 text-sm font-semibold text-white transition hover:bg-brand-600"
+          >
+            Comprar en Mercado Libre
+          </a>
+          <a
+            href={`/comparador/?type=${product.type}&add=${product.id}`}
+            class="rounded-xl border border-ink-200 px-6 py-3 text-sm font-semibold text-ink-700 transition hover:border-brand-300"
+          >
+            Añadir al comparador
+          </a>
+        </div>
+
+        <p class="mt-3 text-xs text-ink-400">
+          Como afiliados del Programa de Afiliados de Mercado Libre, obtenemos una comisión por las compras
+          realizadas a través de nuestros enlaces.
+        </p>
+      </div>
+    </div>
+
+    <section class="mt-12 grid grid-cols-1 gap-8 md:grid-cols-3">
+      <div class="md:col-span-2">
+        <h2 class="text-xl font-bold text-ink-900">Ficha técnica</h2>
+        <dl class="mt-4 divide-y divide-ink-100 rounded-xl border border-ink-100 bg-white">
+          {
+            product.specs.map((spec) => (
+              <div class="flex justify-between gap-4 px-4 py-3 text-sm">
+                <dt class="text-ink-500">{spec.label}</dt>
+                <dd class="text-right font-medium text-ink-900">{spec.value}</dd>
+              </div>
+            ))
+          }
+        </dl>
+
+        <h2 class="mt-8 text-xl font-bold text-ink-900">Características</h2>
+        <ul class="mt-4 grid grid-cols-1 gap-2 sm:grid-cols-2">
+          {
+            product.features.map((f) => (
+              <li class="flex items-center gap-2 rounded-lg bg-white px-3 py-2 text-sm text-ink-700 ring-1 ring-ink-100">
+                <span class="h-1.5 w-1.5 rounded-full bg-brand-500" /> {f}
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+
+      <div class="space-y-4">
+        <div class="rounded-xl border border-emerald-100 bg-emerald-50 p-4">
+          <h3 class="font-semibold text-emerald-800">Ventajas</h3>
+          <ul class="mt-2 space-y-1.5 text-sm text-emerald-900">
+            {product.pros.map((p) => <li>+ {p}</li>)}
+          </ul>
+        </div>
+        <div class="rounded-xl border border-rose-100 bg-rose-50 p-4">
+          <h3 class="font-semibold text-rose-800">A tener en cuenta</h3>
+          <ul class="mt-2 space-y-1.5 text-sm text-rose-900">
+            {product.cons.map((c) => <li>− {c}</li>)}
+          </ul>
+        </div>
+        <div class="rounded-xl border border-brand-100 bg-brand-50 p-4">
+          <h3 class="font-semibold text-brand-800">¿Para quién es?</h3>
+          <p class="mt-2 text-sm text-brand-900">{product.idealFor}</p>
+        </div>
+      </div>
+    </section>
+
+    {
+      related.length > 0 && (
+        <section class="mt-14">
+          <h2 class="text-xl font-bold text-ink-900">
+            Otras opciones en {PRODUCT_TYPE_LABELS[product.type].toLowerCase()}
+          </h2>
+          <div class="mt-4 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+            {related.map((p) => <ProductCard product={p} />)}
+          </div>
+        </section>
+      )
+    }
+  </main>
+</Layout>

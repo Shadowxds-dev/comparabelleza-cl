@@ -1,0 +1,33 @@
+---
+import CategoryPage from "../components/CategoryPage.astro";
+import { products } from "../data/products";
+
+const secadores = products.filter((p) => p.type === "secador");
+---
+
+<CategoryPage
+  type="secador"
+  path="/secadores/"
+  title="Mejores Secadores de Pelo en Chile 2026: Comparativa y Precios"
+  metaDescription="Comparamos secadores de pelo disponibles en Mercado Libre Chile: Philips, Remington, Ga.ma, Bomidi y más. Potencia, tecnología antifrizz, precios en CLP y ficha técnica completa."
+  h1="Secadores de pelo"
+  intro={[
+    "Un secador con la potencia y tecnología equivocadas puede dejar el cabello frágil y encrespado. Comparamos secadores disponibles en Mercado Libre Chile, desde opciones económicas hasta modelos con tecnología iónica, cerámica y de plasma antifrizz.",
+    "Si tienes cabello fino o dañado, prioriza la tecnología iónica o cerámica sobre la potencia bruta; si necesitas secar rápido cabello grueso, la potencia en watts y las RPM del motor importan más.",
+  ]}
+  faqs={[
+    {
+      q: "¿Qué potencia necesito en un secador?",
+      a: "Para cabello fino, 1200-1800W suele ser suficiente. Para cabello grueso o abundante, conviene subir a 2000W o más para reducir el tiempo de secado y el daño por exposición prolongada al calor.",
+    },
+    {
+      q: "¿Qué diferencia hay entre tecnología iónica y cerámica?",
+      a: "La tecnología iónica reduce el frizz al neutralizar la carga estática del cabello, mientras que la cerámica distribuye el calor de forma más uniforme evitando puntos calientes. Muchos secadores de gama media combinan ambas.",
+    },
+    {
+      q: "¿Vale la pena un secador con difusor?",
+      a: "Sí, si tienes cabello rizado u ondulado: el difusor distribuye el aire de forma más suave y ayuda a definir los rizos sin encresparlos, en vez de dispersarlos con aire directo.",
+    },
+  ]}
+  products={secadores}
+/>

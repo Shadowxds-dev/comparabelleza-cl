@@ -1,0 +1,33 @@
+---
+import CategoryPage from "../components/CategoryPage.astro";
+import { products } from "../data/products";
+
+const facial = products.filter((p) => p.type === "facial");
+---
+
+<CategoryPage
+  type="facial"
+  path="/facial/"
+  title="Cepillos de Drenaje Linfático Facial en Chile: Comparativa"
+  metaDescription="Comparamos cepillos masajeadores de drenaje linfático facial disponibles en Mercado Libre Chile. Función, precios en CLP y ficha comparativa."
+  h1="Cuidado facial: drenaje linfático"
+  intro={[
+    "El drenaje linfático facial se popularizó como rutina de skincare para reducir hinchazón y marcar el contorno del rostro, y los cepillos manuales son la forma más accesible de incorporarlo a diario.",
+    "Son herramientas simples sin batería ni electrónica, así que la diferencia entre modelos está en la calidad de las cerdas y la ergonomía del mango para sesiones diarias de varios minutos.",
+  ]}
+  faqs={[
+    {
+      q: "¿Con qué frecuencia debo usar un cepillo de drenaje facial?",
+      a: "La rutina habitual es de 3 a 5 minutos al día, preferentemente por la mañana para reducir la hinchazón matutina. Los resultados de contorno son acumulativos, no inmediatos.",
+    },
+    {
+      q: "¿Se usa con o sin producto?",
+      a: "Se recomienda usarlo sobre la piel con un aceite facial o sérum para que el cepillo deslice sin generar fricción excesiva sobre la piel.",
+    },
+    {
+      q: "¿Reemplaza un masaje facial profesional?",
+      a: "No completamente, pero es un buen complemento diario de bajo costo entre sesiones profesionales de drenaje linfático manual.",
+    },
+  ]}
+  products={facial}
+/>

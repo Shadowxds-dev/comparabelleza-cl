@@ -1,0 +1,37 @@
+---
+import type { Product } from "../types";
+import ProductImage from "./ProductImage.astro";
+import StarRating from "./StarRating.astro";
+import { formatCLP } from "../utils/format";
+
+interface Props {
+  product: Product;
+}
+
+const { product } = Astro.props;
+---
+
+<div class="group flex flex-col overflow-hidden rounded-2xl border border-ink-100 bg-white shadow-sm transition hover:-translate-y-0.5 hover:shadow-md">
+  <a href={`/producto/${product.slug}/`} class="block">
+    <ProductImage type={product.type} tier={product.tier} image={product.image} title={product.name} class="aspect-[4/3] w-full" />
+  </a>
+  <div class="flex flex-1 flex-col gap-2 p-4">
+    <div class="text-xs font-medium uppercase tracking-wide text-brand-600">{product.brand}</div>
+    <a href={`/producto/${product.slug}/`} class="font-semibold text-ink-900 hover:text-brand-600">
+      {product.name}
+    </a>
+    <StarRating rating={product.rating} reviewCount={product.reviewCount} />
+    <p class="line-clamp-2 text-sm text-ink-500">{product.idealFor}</p>
+    <div class="mt-auto flex items-center justify-between pt-2">
+      <span class="text-lg font-bold text-ink-900">{formatCLP(product.price)}</span>
+      <a
+        href={product.affiliateUrl}
+        target="_blank"
+        rel="noopener noreferrer sponsored nofollow"
+        class="rounded-lg bg-brand-500 px-3 py-1.5 text-sm font-semibold text-white transition hover:bg-brand-600"
+      >
+        Ver en Mercado Libre
+      </a>
+    </div>
+  </div>
+</div>

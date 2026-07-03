@@ -1,0 +1,45 @@
+---
+import type { ProductTier, ProductType } from "../types";
+import { TIER_LABELS } from "../data/products";
+
+interface Props {
+  type: ProductType;
+  tier: ProductTier;
+  image?: string;
+  class?: string;
+  title: string;
+}
+
+const { type, tier, image, class: className = "", title } = Astro.props;
+
+const GRADIENTS: Record<ProductTier, string> = {
+  economica: "from-emerald-400 to-teal-600",
+  media: "from-brand-400 to-brand-700",
+  premium: "from-ink-700 to-ink-900",
+  profesional: "from-fuchsia-500 to-purple-800",
+};
+
+const PATHS: Record<ProductType, string> = {
+  secador: "M14 22a14 14 0 1 1 28 0c0 4-2 7-6 9l-4 3v12h-8V34l-4-3c-4-2-6-5-6-9Z",
+  plancha: "M12 18h32v10H12z M16 28l4 22h16l4-22",
+  depiladora: "M27 6h10v30h-10z M23 36h18v20h-18z",
+  facial: "M32 10a22 22 0 1 0 0.1 0Z M32 22a10 10 0 1 0 0.1 0Z",
+};
+---
+
+<div class:list={["relative overflow-hidden rounded-xl bg-white ring-1 ring-ink-100", className]}>
+  {
+    image ? (
+      <img src={image} alt={title} class="h-full w-full object-contain p-3" loading="lazy" />
+    ) : (
+      <div class:list={["flex h-full w-full items-center justify-center bg-gradient-to-br", GRADIENTS[tier]]} role="img" aria-label={title}>
+        <svg viewBox="0 0 64 64" class="h-1/2 w-1/2 text-white/90" fill="none" stroke="currentColor" stroke-width="2.5">
+          <path d={PATHS[type]} stroke-linejoin="round" stroke-linecap="round" />
+        </svg>
+      </div>
+    )
+  }
+  <span class="absolute bottom-2 right-2 rounded-full bg-black/60 px-2 py-0.5 text-[10px] font-medium uppercase tracking-wide text-white">
+    {TIER_LABELS[tier]}
+  </span>
+</div>
