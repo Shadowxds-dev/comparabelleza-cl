@@ -23,10 +23,13 @@ const fullName = product.name.startsWith(product.brand) ? product.name : `${prod
 const title = `${fullName} — Ficha técnica, precio y opiniones`;
 const description = `${product.description} Precio orientativo: ${formatCLP(product.price)}. Compara ${fullName} con otros modelos de ${PRODUCT_TYPE_LABELS[product.type].toLowerCase()} en Chile.`;
 
+const priceValidUntil = new Date(Date.now() + 60 * 24 * 60 * 60 * 1000).toISOString().slice(0, 10);
+
 const productJsonLd = {
   "@context": "https://schema.org",
   "@type": "Product",
   name: fullName,
+  image: product.image,
   brand: { "@type": "Brand", name: product.brand },
   description: product.description,
   aggregateRating: {
@@ -38,6 +41,8 @@ const productJsonLd = {
     "@type": "Offer",
     priceCurrency: "CLP",
     price: product.price,
+    priceValidUntil,
+    itemCondition: "https://schema.org/NewCondition",
     url: product.affiliateUrl,
     availability: "https://schema.org/InStock",
   },
@@ -63,7 +68,7 @@ const breadcrumbJsonLd = {
 };
 ---
 
-<Layout title={title} description={description} jsonLd={[productJsonLd, breadcrumbJsonLd]}>
+<Layout title={title} description={description} image={product.image} jsonLd={[productJsonLd, breadcrumbJsonLd]}>
   <main class="mx-auto max-w-5xl px-4 pb-16">
     <nav class="my-6 text-sm text-ink-400" aria-label="Breadcrumb">
       <a href="/" class="hover:text-brand-600">Inicio</a> /
