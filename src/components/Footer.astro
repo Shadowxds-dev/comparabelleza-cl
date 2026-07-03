@@ -1,5 +1,11 @@
 ---
 const year = new Date().getFullYear();
+
+// TODO: reemplaza por los dominios .cl reales cuando los compres
+const SISTER_SITES = [
+  { name: "ComparaOficina.cl", url: "https://oficina-comparador.vercel.app", blurb: "Sillas, escritorios, monitores y accesorios de oficina" },
+  { name: "ComparaFitness.cl", url: "https://fitness-comparador.vercel.app", blurb: "Pesas, cardio, accesorios y relojes deportivos" },
+];
 ---
 
 <footer class="mt-16 border-t border-ink-100 bg-white py-8 text-center text-xs text-ink-400">
@@ -10,6 +16,21 @@ const year = new Date().getFullYear();
     <a href="/facial/" class="hover:text-brand-600">Cuidado facial</a>
     <a href="/comparador/" class="hover:text-brand-600">Comparador</a>
   </nav>
+
+  <div class="mx-auto mb-6 max-w-md rounded-xl border border-ink-100 bg-ink-50/60 p-4">
+    <p class="mb-2 font-semibold text-ink-600">Nuestra red de sitios</p>
+    <div class="flex flex-col gap-2">
+      {
+        SISTER_SITES.map((site) => (
+          <a href={site.url} class="text-left hover:text-brand-600">
+            <span class="font-medium text-ink-700">{site.name}</span>
+            <span class="text-ink-400"> — {site.blurb}</span>
+          </a>
+        ))
+      }
+    </div>
+  </div>
+
   <p class="mx-auto max-w-2xl">
     ComparaBelleza.cl participa en el Programa de Afiliados y Creadores de Mercado Libre, un programa de
     publicidad diseñado para ofrecer a sitios web y creadores de contenido un modo de obtener comisiones por
